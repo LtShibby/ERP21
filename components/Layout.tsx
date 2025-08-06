@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -14,9 +15,18 @@ export default function Layout({
   description = "ERP21 is a trusted recruitment partner since 1999, specializing in Oil & Gas, Aerospace, Defence, Utility, Shipping, and Healthcare industries."
 }: LayoutProps) {
   const router = useRouter();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const isActive = (path: string) => {
     return router.pathname === path;
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -87,15 +97,89 @@ export default function Layout({
 
               {/* Mobile Menu Button */}
               <div className="md:hidden">
-                <button className="text-gray-600 hover:text-gray-900">
-                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                  </svg>
+                <button 
+                  onClick={toggleMobileMenu}
+                  className="text-gray-600 hover:text-gray-900 p-2"
+                  aria-label="Toggle mobile menu"
+                  aria-expanded={isMobileMenuOpen}
+                >
+                  {isMobileMenuOpen ? (
+                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  ) : (
+                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                  )}
                 </button>
               </div>
             </div>
           </div>
         </nav>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <>
+            {/* Mobile Menu Overlay */}
+            <div 
+              className="fixed inset-0 bg-black bg-opacity-25 z-40 md:hidden"
+              onClick={closeMobileMenu}
+            ></div>
+            
+            {/* Mobile Menu Content */}
+            <div className="md:hidden bg-white border-b border-gray-200 relative z-50">
+              <div className="page-container py-4">
+                <div className="flex flex-col space-y-4">
+                  <Link 
+                    href="/" 
+                    onClick={closeMobileMenu}
+                    className={`text-lg font-medium transition-colors py-2 ${
+                      isActive('/') 
+                        ? 'text-erp-blue' 
+                        : 'text-gray-600 hover:text-erp-blue'
+                    }`}
+                  >
+                    Home
+                  </Link>
+                  <Link 
+                    href="/about" 
+                    onClick={closeMobileMenu}
+                    className={`text-lg font-medium transition-colors py-2 ${
+                      isActive('/about') 
+                        ? 'text-erp-blue' 
+                        : 'text-gray-600 hover:text-erp-blue'
+                    }`}
+                  >
+                    About
+                  </Link>
+                  <Link 
+                    href="/jobs" 
+                    onClick={closeMobileMenu}
+                    className={`text-lg font-medium transition-colors py-2 ${
+                      isActive('/jobs') 
+                        ? 'text-erp-blue' 
+                        : 'text-gray-600 hover:text-erp-blue'
+                    }`}
+                  >
+                    Jobs
+                  </Link>
+                  <Link 
+                    href="/contact" 
+                    onClick={closeMobileMenu}
+                    className={`text-lg font-medium transition-colors py-2 ${
+                      isActive('/contact') 
+                        ? 'text-erp-blue' 
+                        : 'text-gray-600 hover:text-erp-blue'
+                    }`}
+                  >
+                    Contact
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
 
         {/* Main Content */}
         <main className="flex-1">
