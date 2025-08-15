@@ -32,11 +32,10 @@ export default function Admin() {
 
   useEffect(() => {
     loadJobs();
-    // Check if user is already authenticated in this session
-    const isAuth = sessionStorage.getItem('erp21-admin-auth');
-    if (isAuth === 'true') {
-      setIsAuthenticated(true);
-    }
+    fetch('/api/admin/me')
+      .then(r => r.json())
+      .then(j => setIsAuthenticated(!!j.authenticated))
+      .catch(() => setIsAuthenticated(false));
   }, []);
 
   const loadJobs = async () => {
@@ -63,28 +62,30 @@ export default function Admin() {
     setJobs(updatedJobs);
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Rate limiting - block after 5 failed attempts
+
     if (loginAttempts >= 5) {
       alert('Too many failed attempts. Please wait before trying again.');
       return;
     }
-    
-    // For static export, we need to use a build-time environment variable
-    // The password will be embedded in the client-side code at build time
-    const adminPassword = process.env.NEXT_PUBLIC_ADMIN_LOGIN || 'erp21admin';
-    
-    if (password === adminPassword) {
+
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+      });
+      const json = await res.json();
+      if (!res.ok || !json.ok) throw new Error(json.error || 'Invalid password');
+
       setIsAuthenticated(true);
       setLoginAttempts(0);
-      // Store authentication in sessionStorage for the current session
-      sessionStorage.setItem('erp21-admin-auth', 'true');
-    } else {
-      setLoginAttempts(loginAttempts + 1);
-      const remainingAttempts = 5 - loginAttempts - 1;
-      alert(`Invalid password. ${remainingAttempts > 0 ? `${remainingAttempts} attempts remaining.` : 'No attempts remaining.'}`);
+      setPassword('');
+    } catch (err: any) {
+      setLoginAttempts((n) => n + 1);
+      const remaining = 5 - (loginAttempts + 1);
+      alert(`Invalid password. ${remaining > 0 ? `${remaining} attempts remaining.` : 'No attempts remaining.'}`);
     }
   };
 
@@ -204,7 +205,7 @@ export default function Admin() {
             
             <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
               <p className="text-sm text-yellow-800">
-                <strong>Note:</strong> Password is configured via environment variable
+                <strong>Note:</strong> Password is validated server-side. Your session lasts up to 12 hours.
               </p>
               {loginAttempts > 0 && (
                 <p className="text-sm text-red-600 mt-2">
@@ -225,9 +226,9 @@ export default function Admin() {
           <h1 className="text-3xl font-bold text-gray-900">Job Management</h1>
           <div className="flex gap-4">
             <button
-              onClick={() => {
+              onClick={async () => {
+                await fetch('/api/admin/logout', { method: 'POST' });
                 setIsAuthenticated(false);
-                sessionStorage.removeItem('erp21-admin-auth');
               }}
               className="btn-secondary"
             >

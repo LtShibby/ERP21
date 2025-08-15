@@ -23,10 +23,9 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ```bash
 npm run build
-npm run export
 ```
 
-Output will be in the `out/` folder, ready for Vercel deployment.
+The app will be deployed as a serverless Next.js application on Vercel with API routes enabled.
 
 ## Environment Variables
 
@@ -42,30 +41,32 @@ To secure the admin panel, set the `ADMIN_LOGIN` environment variable in your Ve
 
 **Local Development**: Create a `.env.local` file in the root directory:
 ```bash
-NEXT_PUBLIC_ADMIN_LOGIN=your_secure_password_here
+ADMIN_LOGIN=your_secure_password_here
 ```
 
-**Note**: Since this is a static export, the password will be embedded in the client-side code at build time. For production use, consider implementing server-side authentication.
+**Note**: The password is now validated server-side via API routes and never exposed to the client. Authentication uses secure HTTP-only cookies.
 
 ### Security Considerations
 
-The current admin authentication is client-side only and suitable for basic access control. For enhanced security:
+The admin authentication now uses server-side validation with enhanced security:
 
-- **Session Management**: Uses `sessionStorage` for browser session persistence
-- **Rate Limiting**: Blocks login attempts after 5 failed tries
-- **No Persistent Storage**: Authentication resets when browser is closed
+- **Server-Side Validation**: Password is never exposed to the client
+- **HTTP-Only Cookies**: Secure cookie-based session management
+- **Rate Limiting**: IP-based rate limiting (5 attempts per 15 minutes)
+- **Session Duration**: 12-hour session with secure cookie configuration
+- **CSRF Protection**: SameSite=Lax cookie policy for basic protection
 
-For production environments requiring higher security, consider:
-- Server-side authentication with JWT tokens
-- Database-backed user management
-- HTTPS-only access
-- IP whitelisting
+Security features:
+- `httpOnly: true` - Cookies cannot be accessed via JavaScript
+- `secure: true` in production - HTTPS-only in production
+- `sameSite: "lax"` - Basic CSRF protection
+- Server-side rate limiting per IP address
 
 ## Notes
 
-* No backend. Jobs are read from `/data/jobs.json` or saved locally in browser storage.
-* Admin page is just a convenience page for client to simulate managing job listings.
-* Fully static export compatible with Vercel, Netlify, and other static hosting providers.
+* Jobs are read from `/data/jobs.json` or saved locally in browser storage.
+* Admin page uses server-side authentication via API routes.
+* Deployed as a serverless Next.js application on Vercel with API routes enabled.
 
 ## Technologies Used
 
