@@ -10,6 +10,7 @@ interface Job {
   description: string;
   requirements: string[];
   datePosted: string;
+  archived?: boolean;
 }
 
 export default function Jobs() {
@@ -36,12 +37,16 @@ export default function Jobs() {
       const localJobs = localStorage.getItem('erp21-jobs');
       if (localJobs) {
         const parsedJobs = JSON.parse(localJobs);
-        setJobs(parsedJobs);
+        // Filter out archived jobs for public view
+        const publicJobs = parsedJobs.filter((job: Job) => !job.archived);
+        setJobs(publicJobs);
       } else {
         // Fallback to static JSON file
         const response = await fetch('/data/jobs.json');
         const data = await response.json();
-        setJobs(data);
+        // Filter out archived jobs for public view
+        const publicJobs = data.filter((job: Job) => !job.archived);
+        setJobs(publicJobs);
       }
     } catch (error) {
       console.error('Error loading jobs:', error);

@@ -17,7 +17,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Resp>)
   if (req.method !== "POST") return res.status(405).json({ ok: false, error: "Method not allowed" });
 
   const secret = process.env.ADMIN_LOGIN;
-  console.log('DEBUG: ADMIN_LOGIN env var:', secret); // Debug log
   if (!secret) return res.status(500).json({ ok: false, error: "ADMIN_LOGIN not set" });
 
   const ip = getClientIp(req);
@@ -34,8 +33,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Resp>)
   }
 
   const { password } = (req.body || {}) as { password?: string };
-  console.log('DEBUG: Received password:', password); // Debug log
-  console.log('DEBUG: Comparing with secret:', secret); // Debug log
   if (!password || password !== secret) {
     entry.count += 1;
     attempts.set(ip, entry);
