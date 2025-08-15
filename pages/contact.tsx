@@ -7,13 +7,13 @@ export default function Contact() {
       description="Contact ERP21 for your recruitment needs. Email us at jobs@erp21.com or connect via WhatsApp for immediate assistance."
     >
       {/* Header */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-12 sm:py-16 lg:py-20 bg-gray-50">
         <div className="page-container">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
               Get in Touch
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
               Ready to find your next opportunity or need recruitment solutions? Our team is here to help.
             </p>
           </div>
@@ -21,12 +21,12 @@ export default function Contact() {
       </section>
 
       {/* Contact Options */}
-      <section className="py-20">
+      <section className="py-12 sm:py-16 lg:py-20">
         <div className="page-container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="flex justify-center">
             {/* Contact Information */}
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-8">
+            <div className="max-w-2xl">
+              <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
                 Contact Information
               </h2>
               
@@ -61,12 +61,12 @@ export default function Contact() {
                     <h3 className="text-lg font-semibold text-gray-900 mb-1">WhatsApp</h3>
                     <p className="text-gray-600 mb-2">Quick response for urgent inquiries</p>
                     <a 
-                      href="https://wa.me/6591234567" 
+                      href="https://wa.me/6598806711" 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="text-green-600 hover:text-green-700 font-medium"
                     >
-                      +65 9123 4567
+                      +65 9880 6711
                     </a>
                   </div>
                 </div>
@@ -92,7 +92,7 @@ export default function Contact() {
             </div>
 
             {/* Contact Form */}
-            <div className="bg-gray-50 rounded-lg p-8">
+            {/* <div className="bg-gray-50 rounded-lg p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">
                 Send us a Message
               </h2>
@@ -204,24 +204,24 @@ export default function Contact() {
               <p className="text-sm text-gray-500 mt-4">
                 * Required fields. We'll get back to you within 24 hours.
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
 
       {/* Quick Actions */}
-      <section className="py-20 bg-erp-blue text-white">
+      <section className="py-12 sm:py-16 lg:py-20 bg-erp-blue text-white">
         <div className="page-container">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4">
               Quick Actions
             </h2>
-            <p className="text-xl text-blue-100">
+            <p className="text-lg sm:text-xl text-blue-100">
               Looking for something specific? Here are the fastest ways to get what you need.
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             <div className="text-center">
               <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -2,6 +2,8 @@ import Link from 'next/link';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import erp21 from '../content/erp21';
+import CareersBanner from './CareersBanner';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -11,8 +13,8 @@ interface LayoutProps {
 
 export default function Layout({ 
   children, 
-  title = "ERP21 - Bridging the world with resourceful professionals",
-  description = "ERP21 is a trusted recruitment partner since 1999, specializing in Oil & Gas, Aerospace, Defence, Utility, Shipping, and Healthcare industries."
+  title = erp21.seo.title,
+  description = erp21.seo.description
 }: LayoutProps) {
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -39,10 +41,13 @@ export default function Layout({
       </Head>
 
       <div className="min-h-screen flex flex-col">
+        {/* Careers Banner */}
+        <CareersBanner />
+        
         {/* Navigation */}
         <nav className="bg-white shadow-sm border-b border-gray-200">
           <div className="page-container">
-            <div className="flex justify-between items-center h-16">
+            <div className="flex justify-between items-center h-14 sm:h-16">
               {/* Logo */}
               <Link href="/" className="flex items-center">
                 <div className="w-10 h-10 bg-erp-blue rounded-lg flex items-center justify-center mr-3">
@@ -52,7 +57,7 @@ export default function Layout({
               </Link>
 
               {/* Navigation Links */}
-              <div className="hidden md:flex space-x-8">
+              <div className="hidden md:flex space-x-6 lg:space-x-8">
                 <Link 
                   href="/" 
                   className={`text-sm font-medium transition-colors ${
@@ -188,8 +193,8 @@ export default function Layout({
 
         {/* Footer */}
         <footer className="bg-gray-50 border-t border-gray-200">
-          <div className="page-container py-12">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="page-container py-8 sm:py-12">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 sm:gap-8">
               {/* Company Info */}
               <div className="col-span-2">
                 <div className="flex items-center mb-4">
@@ -199,11 +204,16 @@ export default function Layout({
                   <span className="text-lg font-bold text-gray-900">ERP21</span>
                 </div>
                 <p className="text-gray-600 mb-4">
-                  Bridging the world with resourceful professionals since 1999.
+                  {erp21.motto.subtitle} — {erp21.about.since.toLowerCase()}.
                 </p>
-                <p className="text-sm text-gray-500">
-                  © 2025 ERP21 Pte Ltd. All rights reserved.
-                </p>
+                <div className="space-y-2">
+                  <p className="text-sm text-gray-500">
+                    {erp21.about.momLicence}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    © 2025 ERP21 Pte Ltd. All rights reserved.
+                  </p>
+                </div>
               </div>
 
               {/* Quick Links */}
@@ -225,12 +235,9 @@ export default function Layout({
                   Industries
                 </h3>
                 <ul className="space-y-3 text-sm">
-                  <li className="text-gray-600">Oil & Gas</li>
-                  <li className="text-gray-600">Aerospace</li>
-                  <li className="text-gray-600">Defence</li>
-                  <li className="text-gray-600">Utility</li>
-                  <li className="text-gray-600">Shipping</li>
-                  <li className="text-gray-600">Healthcare</li>
+                  {erp21.about.industries.map((industry, index) => (
+                    <li key={index} className="text-gray-600">{industry}</li>
+                  ))}
                 </ul>
               </div>
             </div>

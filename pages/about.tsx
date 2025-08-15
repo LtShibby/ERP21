@@ -1,165 +1,187 @@
 import Layout from '../components/Layout';
+import Section from '../components/Section';
+import KeyStats from '../components/KeyStats';
+import Offices from '../components/Offices';
+import ServicesList from '../components/ServicesList';
+import CeoSpotlight from '../components/CeoSpotlight';
+import erp21 from '../content/erp21';
 
 export default function About() {
   return (
     <Layout 
-      title="About ERP21 - Trusted Recruitment Partner Since 1999"
-      description="Learn about ERP21's history, mission, and expertise in recruiting for Oil & Gas, Aerospace, Defence, Utility, Shipping, and Healthcare industries."
+      title={erp21.seo.title}
+      description={erp21.seo.description}
     >
       {/* Hero Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-12 sm:py-16 lg:py-20 bg-gray-50">
         <div className="page-container">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              About ERP21
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
+              {erp21.about.headline}
             </h1>
-            <p className="text-xl text-gray-600">
-              Bridging the world with resourceful professionals since 1999
+            <p className="text-lg sm:text-xl text-gray-600">
+              {erp21.about.since} — {erp21.motto.subtitle}
             </p>
           </div>
         </div>
       </section>
 
-      {/* Company History */}
-      <section className="py-20">
+      {/* Company Story */}
+      <section className="py-12 sm:py-16 lg:py-20">
         <div className="page-container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
             <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
               <div className="space-y-4 text-gray-600">
-                <p>
-                  Founded in 1999, ERP21 has been at the forefront of connecting exceptional talent with leading companies across critical industries. What started as a vision to bridge the gap between skilled professionals and specialized industries has grown into a trusted recruitment partner with over 25 years of experience.
-                </p>
-                <p>
-                  Our deep understanding of industry-specific requirements, combined with our extensive global network, allows us to deliver tailored recruitment solutions that drive business success and career advancement.
-                </p>
-                <p>
-                  Based in Singapore with reach across Southeast Asia and beyond, we continue to evolve with the changing landscape of work while maintaining our commitment to excellence and integrity.
-                </p>
+                {erp21.about.body.map((paragraph, index) => (
+                  <p key={index}>{paragraph}</p>
+                ))}
+                
+                {/* ERP Variants */}
+                <div className="mt-6 p-4 bg-blue-50 rounded-lg border-l-4 border-erp-blue">
+                  <h4 className="font-semibold text-gray-900 mb-2">Enterprise Solutions:</h4>
+                  <ul className="space-y-1">
+                    {erp21.about.erpVariants.map((variant, index) => (
+                      <li key={index} className="text-sm text-gray-700">• {variant}</li>
+                    ))}
+                  </ul>
+                </div>
+                
+                {/* MOM Licence */}
+                <div className="mt-4 p-3 bg-green-50 rounded-lg border border-green-200">
+                  <p className="text-sm font-medium text-green-800">{erp21.about.momLicence}</p>
+                </div>
               </div>
             </div>
             <div className="bg-erp-blue rounded-lg p-8 text-white">
-              <h3 className="text-2xl font-bold mb-4">25+ Years</h3>
-              <p className="text-blue-100 mb-6">of trusted recruitment expertise</p>
+              <h3 className="text-2xl font-bold mb-4">{erp21.keyStats[0].value}</h3>
+              <p className="text-blue-100 mb-6">{erp21.keyStats[0].label}</p>
               
-              <h3 className="text-2xl font-bold mb-4">6 Key Industries</h3>
-              <p className="text-blue-100 mb-6">specializing in critical sectors</p>
+              <h3 className="text-2xl font-bold mb-4">{erp21.keyStats[1].value}</h3>
+              <p className="text-blue-100 mb-6">{erp21.keyStats[1].label}</p>
               
-              <h3 className="text-2xl font-bold mb-4">Global Network</h3>
-              <p className="text-blue-100">connecting talent worldwide</p>
+              <h3 className="text-2xl font-bold mb-4">SEA Focus</h3>
+              <p className="text-blue-100">connecting talent across regions</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Industries Expertise */}
-      <section className="py-20 bg-gray-50">
-        <div className="page-container">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Industry Expertise
-            </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Our specialized knowledge across these critical industries enables us to understand unique requirements and identify the right talent for complex roles.
-            </p>
-          </div>
+      {/* CEO Spotlight */}
+      <CeoSpotlight />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {[
-              {
-                title: "Oil & Gas",
-                description: "From offshore drilling platforms to refinery operations, we understand the technical expertise and safety requirements essential in the petrochemical industry. Our candidates are vetted for their experience with industry standards and regulations.",
-                highlights: ["Offshore platforms", "Refinery operations", "Petrochemical facilities", "Pipeline systems"]
-              },
-              {
-                title: "Aerospace",
-                description: "The aerospace industry demands precision and innovation. We recruit for aircraft manufacturers, space technology companies, and defense contractors, focusing on candidates with cutting-edge technical skills and security clearances.",
-                highlights: ["Aircraft systems", "Space technology", "Defense applications", "Avionics"]
-              },
-              {
-                title: "Defence",
-                description: "Security and reliability are paramount in defense recruitment. We specialize in finding professionals with the right clearances and expertise for military systems, cybersecurity, and government projects.",
-                highlights: ["Military systems", "Cybersecurity", "Government projects", "Defense technology"]
-              },
-              {
-                title: "Utility",
-                description: "Power generation, water treatment, and infrastructure projects require specialized knowledge. We connect utilities with engineers and technicians who understand critical infrastructure operations.",
-                highlights: ["Power generation", "Water treatment", "Smart grid technology", "Infrastructure"]
-              },
-              {
-                title: "Shipping",
-                description: "Maritime operations require deep understanding of international regulations and logistics. We recruit for vessel operations, port management, and maritime technology roles across the shipping industry.",
-                highlights: ["Maritime operations", "Port logistics", "Vessel management", "Shipping technology"]
-              },
-              {
-                title: "Healthcare",
-                description: "Healthcare technology and medical device industries require professionals who understand both technical innovation and regulatory compliance. We find talent that can navigate this complex landscape.",
-                highlights: ["Medical technology", "Healthcare IT", "Pharmaceutical", "Regulatory compliance"]
-              }
-            ].map((industry, index) => (
-              <div key={index} className="card">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">{industry.title}</h3>
-                <p className="text-gray-600 mb-4">{industry.description}</p>
-                <div className="space-y-2">
-                  {industry.highlights.map((highlight, idx) => (
-                    <div key={idx} className="flex items-center text-sm text-gray-500">
-                      <div className="w-2 h-2 bg-erp-blue rounded-full mr-3"></div>
-                      {highlight}
-                    </div>
-                  ))}
-                </div>
+      {/* Industries & Services */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-gray-50">
+        <div className="page-container">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12">
+            {/* Industries */}
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">Industries We Serve</h2>
+              <div className="grid grid-cols-1 gap-4">
+                {erp21.about.industries.map((industry, index) => (
+                  <div key={index} className="flex items-center p-4 bg-white rounded-lg shadow-sm">
+                    <div className="w-3 h-3 bg-erp-blue rounded-full mr-4"></div>
+                    <span className="font-medium text-gray-900">{industry}</span>
+                  </div>
+                ))}
               </div>
+            </div>
+            
+            {/* Services */}
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Services</h2>
+              <ServicesList services={erp21.services} showPractitionerNote={true} />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Key Stats */}
+      <section className="py-12 sm:py-16 lg:py-20">
+        <div className="page-container">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+              Our Track Record
+            </h2>
+          </div>
+          <KeyStats stats={erp21.keyStats} />
+        </div>
+      </section>
+
+      {/* Vision & Mission */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-gray-50">
+        <div className="page-container">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12">
+            {/* Vision */}
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Vision</h2>
+              <ul className="space-y-4">
+                {erp21.vision.map((item, index) => (
+                  <li key={index} className="flex items-start">
+                    <div className="w-6 h-6 bg-erp-blue rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                      <span className="text-white text-sm">•</span>
+                    </div>
+                    <span className="text-gray-700">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            
+            {/* Mission */}
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h2>
+              <ul className="space-y-4">
+                {erp21.mission.map((item, index) => (
+                  <li key={index} className="flex items-start">
+                    <div className="w-6 h-6 bg-erp-blue rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                      <span className="text-white text-sm">•</span>
+                    </div>
+                    <span className="text-gray-700">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* People Values */}
+      <section className="py-12 sm:py-16 lg:py-20">
+        <div className="page-container">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+              Our People Values
+            </h2>
+          </div>
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
+            {erp21.peopleValues.map((value, index) => (
+              <span 
+                key={index} 
+                className="px-6 py-3 bg-erp-blue text-white rounded-full font-medium"
+              >
+                {value}
+              </span>
             ))}
           </div>
         </div>
       </section>
-
-      {/* Leadership Quote */}
-      <section className="py-20">
+      
+      {/* Motto */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-gray-50">
         <div className="page-container">
           <div className="max-w-4xl mx-auto text-center">
-            <blockquote className="text-2xl md:text-3xl text-gray-700 italic mb-8">
-              "We pride ourselves in being a trusted player in the industry, building long-term relationships with both our clients and candidates. Our success is measured not just by successful placements, but by the lasting impact we create in people's careers and organizations' growth."
+            <blockquote className="text-2xl sm:text-3xl lg:text-4xl text-gray-700 italic mb-4">
+              {erp21.motto.main}
             </blockquote>
-            <cite className="text-erp-blue text-lg font-semibold">— Mr. Moh Alkaff</cite>
+            <cite className="text-erp-blue text-lg font-semibold">{erp21.motto.subtitle}</cite>
           </div>
         </div>
       </section>
-
-      {/* Values */}
-      <section className="py-20 bg-gray-50">
-        <div className="page-container">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Our Values
-            </h2>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-erp-blue rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-white text-2xl">🤝</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Trust</h3>
-              <p className="text-gray-600">Building lasting relationships through transparency, integrity, and reliable service.</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-erp-blue rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-white text-2xl">🎯</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Excellence</h3>
-              <p className="text-gray-600">Delivering exceptional results through deep industry knowledge and meticulous attention to detail.</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-erp-blue rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-white text-2xl">🌍</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Global Vision</h3>
-              <p className="text-gray-600">Connecting talent across borders to meet the evolving needs of international markets.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      
+      {/* Offices */}
+      <Section title="Office Locations" bgColor="bg-white">
+        <Offices current={erp21.offices.current} comingSoon={erp21.offices.comingSoon} />
+      </Section>
     </Layout>
   );
 }
