@@ -28,6 +28,39 @@ npm run export
 
 Output will be in the `out/` folder, ready for Vercel deployment.
 
+## Environment Variables
+
+### Admin Authentication
+
+To secure the admin panel, set the `ADMIN_LOGIN` environment variable in your Vercel deployment:
+
+1. **Vercel Dashboard**: Go to your project settings → Environment Variables
+2. **Add Variable**: 
+   - Name: `ADMIN_LOGIN`
+   - Value: Your secure admin password
+   - Environment: Production (and Preview if desired)
+
+**Local Development**: Create a `.env.local` file in the root directory:
+```bash
+NEXT_PUBLIC_ADMIN_LOGIN=your_secure_password_here
+```
+
+**Note**: Since this is a static export, the password will be embedded in the client-side code at build time. For production use, consider implementing server-side authentication.
+
+### Security Considerations
+
+The current admin authentication is client-side only and suitable for basic access control. For enhanced security:
+
+- **Session Management**: Uses `sessionStorage` for browser session persistence
+- **Rate Limiting**: Blocks login attempts after 5 failed tries
+- **No Persistent Storage**: Authentication resets when browser is closed
+
+For production environments requiring higher security, consider:
+- Server-side authentication with JWT tokens
+- Database-backed user management
+- HTTPS-only access
+- IP whitelisting
+
 ## Notes
 
 * No backend. Jobs are read from `/data/jobs.json` or saved locally in browser storage.

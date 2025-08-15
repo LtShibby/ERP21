@@ -26,11 +26,17 @@ export default function Admin() {
   const [showForm, setShowForm] = useState(false);
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loginAttempts, setLoginAttempts] = useState(0);
 
   const industries = ['Oil & Gas', 'Aerospace', 'Defence', 'Utility', 'Shipping', 'Healthcare'];
 
   useEffect(() => {
     loadJobs();
+    // Check if user is already authenticated in this session
+    const isAuth = sessionStorage.getItem('erp21-admin-auth');
+    if (isAuth === 'true') {
+      setIsAuthenticated(true);
+    }
   }, []);
 
   const loadJobs = async () => {
@@ -59,11 +65,26 @@ export default function Admin() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simple password check (in real app, use proper authentication)
-    if (password === 'erp21admin') {
+    
+    // Rate limiting - block after 5 failed attempts
+    if (loginAttempts >= 5) {
+      alert('Too many failed attempts. Please wait before trying again.');
+      return;
+    }
+    
+    // For static export, we need to use a build-time environment variable
+    // The password will be embedded in the client-side code at build time
+    const adminPassword = process.env.NEXT_PUBLIC_ADMIN_LOGIN || 'erp21admin';
+    
+    if (password === adminPassword) {
       setIsAuthenticated(true);
+      setLoginAttempts(0);
+      // Store authentication in sessionStorage for the current session
+      sessionStorage.setItem('erp21-admin-auth', 'true');
     } else {
-      alert('Invalid password');
+      setLoginAttempts(loginAttempts + 1);
+      const remainingAttempts = 5 - loginAttempts - 1;
+      alert(`Invalid password. ${remainingAttempts > 0 ? `${remainingAttempts} attempts remaining.` : 'No attempts remaining.'}`);
     }
   };
 
@@ -183,8 +204,13 @@ export default function Admin() {
             
             <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
               <p className="text-sm text-yellow-800">
-                <strong>Demo password:</strong> erp21admin
+                <strong>Note:</strong> Password is configured via environment variable
               </p>
+              {loginAttempts > 0 && (
+                <p className="text-sm text-red-600 mt-2">
+                  Failed attempts: {loginAttempts}/5
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -199,7 +225,10 @@ export default function Admin() {
           <h1 className="text-3xl font-bold text-gray-900">Job Management</h1>
           <div className="flex gap-4">
             <button
-              onClick={() => setIsAuthenticated(false)}
+              onClick={() => {
+                setIsAuthenticated(false);
+                sessionStorage.removeItem('erp21-admin-auth');
+              }}
               className="btn-secondary"
             >
               Logout

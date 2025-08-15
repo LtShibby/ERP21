@@ -30,7 +30,7 @@ export default function Contact() {
                 Contact Information
               </h2>
               
-              <div className="space-y-8">
+              <div className="space-y-8 bg-white rounded-lg p-8 shadow-sm border border-gray-200">
                 {/* Email */}
                 <div className="flex items-start">
                   <div className="w-12 h-12 bg-erp-blue rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
