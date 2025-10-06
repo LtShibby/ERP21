@@ -36,9 +36,13 @@ export default function Maintenance() {
           
           {/* Subtext */}
           <p className="text-lg md:text-xl text-gray-300 leading-relaxed max-w-lg mx-auto">
-            The site is temporarily offline while we finalize project details. 
-            You'll be able to review and request revisions once the contract is signed.
+            The site is temporarily offline while we finalize project details
+            and prepare the next phase.
           </p>
+          <p className="text-lg md:text-xl text-gray-300 leading-relaxed max-w-lg mx-auto">
+            It’ll be back soon — sharper than ever.
+          </p>
+
           
           {/* Accent Elements */}
           <div className="mt-12 flex justify-center space-x-4">
