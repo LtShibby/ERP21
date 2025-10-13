@@ -9,13 +9,13 @@ export default function CeoSpotlight() {
         <div className="grid gap-8 sm:gap-10 lg:grid-cols-12 items-stretch">
           {/* Photo */}
           <div className="lg:col-span-5">
-            <div className="relative overflow-hidden rounded-2xl shadow-lg ring-1 ring-black/5">
+            {/* Make the card fixed-size and let the image fill it */}
+            <div className="relative overflow-hidden rounded-2xl shadow-lg ring-1 ring-black/5 w-[320px] h-[320px] mx-auto">
               <Image
                 src={c.photo.src}
                 alt={c.photo.alt}
-                width={c.photo.width}
-                height={c.photo.height}
-                className="h-full w-full object-cover"
+                fill
+                className="object-contain"
                 priority={false}
                 loading="lazy"
                 sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 50vw, 480px"

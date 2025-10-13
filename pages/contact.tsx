@@ -62,20 +62,20 @@ export default function Contact() {
                     <p className="text-gray-600 mb-2">Quick response for urgent inquiries</p>
                     <div className="flex flex-col gap-1">
                       <a
-                        href="https://wa.me/6598806711"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-green-600 hover:text-green-700 font-medium"
-                      >
-                        +65 9880 6711
-                      </a>
-                      <a
                         href="https://wa.me/6596686721"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-green-600 hover:text-green-700 font-medium"
                       >
                         +65 9668 6721
+                      </a>
+                      <a
+                        href="https://wa.me/6598806711"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-green-600 hover:text-green-700 font-medium"
+                      >
+                        +65 9880 6711
                       </a>
                     </div>
                   </div>

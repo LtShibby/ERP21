@@ -116,8 +116,8 @@ const erp21: ERP21Content = {
       photo: {
         src: "/images/alkaffHeadshot.png",
         alt: "Portrait of Moh Alkaff, Founder & CEO of ERP21",
-        width: 758,
-        height: 758
+        width: 500,
+        height: 500
       }
     }
   }
