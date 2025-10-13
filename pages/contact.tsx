@@ -70,12 +70,12 @@ export default function Contact() {
                         +65 9880 6711
                       </a>
                       <a
-                        href="https://wa.me/6598806721"
+                        href="https://wa.me/6596686721"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-green-600 hover:text-green-700 font-medium"
                       >
-                        +65 9880 6721
+                        +65 9668 6721
                       </a>
                     </div>
                   </div>
