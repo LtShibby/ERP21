@@ -76,7 +76,7 @@ const erp21: ERP21Content = {
   mission: [
     "Be the preferred source of contract opportunities for SAP practitioners in SEA.",
     "Provide training and development opportunities for SAP professionals.",
-    "Continuously upskill in industry solutions: Oil & Gas, Aerospace, Defence, Mining, Healthcare, Public Sector.",
+    "Continuously upskill in industry solutions: Oil & Gas, Aerospace, Defence, Logistics, Healthcare, Public Sector.",
     "Expand into AI, Machine Learning, Analytics, Application Support, BPR, and Cloud Computing."
   ],
   peopleValues: [
@@ -100,7 +100,7 @@ const erp21: ERP21Content = {
   seo: {
     title: "ERP21 — SAP Recruitment & Consultancy in SEA (Since 1999)",
     description:
-      "ERP21 provides SAP recruitment (contract & permanent), project delivery, training, ODC, and AI-skilled practitioners across Oil & Gas, Aerospace, Defence, Mining, Healthcare, and Public Sector."
+      "ERP21 provides SAP recruitment (contract & permanent), project delivery, training, ODC, and AI-skilled practitioners across Oil & Gas, Aerospace, Defence, Logistics, Healthcare, and Public Sector."
   },
   leadership: {
     ceo: {
@@ -108,7 +108,7 @@ const erp21: ERP21Content = {
       title: "Founder & CEO, ERP21",
       highlight: "First SAP-Asia employee to have worked in the SAP field.",
       bio: [
-        "With 26+ years guiding SAP programs across Oil & Gas, Aerospace, Defence, Mining, and the Public Sector, Moh blends practitioner expertise with pragmatic leadership.",
+        "With 26+ years guiding SAP programs across Oil & Gas, Aerospace, Defence, Logistics, and the Public Sector, Moh blends practitioner expertise with pragmatic leadership.",
         "He built ERP21's recruiter-practitioner model—ensuring every engagement is evaluated by people who have shipped real enterprise systems.",
         "Moh mentors SAP consultants across Southeast Asia, advocates continuous upskilling, and expands ERP21's footprint into AI, analytics, and cloud."
       ],
