@@ -60,13 +60,44 @@ export default function Contact() {
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-1">WhatsApp</h3>
                     <p className="text-gray-600 mb-2">Quick response for urgent inquiries</p>
-                    <a 
-                      href="https://wa.me/6598806711" 
-                      target="_blank" 
+                    <div className="flex flex-col gap-1">
+                      <a
+                        href="https://wa.me/6598806711"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-green-600 hover:text-green-700 font-medium"
+                      >
+                        +65 9880 6711
+                      </a>
+                      <a
+                        href="https://wa.me/6598806721"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-green-600 hover:text-green-700 font-medium"
+                      >
+                        +65 9880 6721
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                {/* LinkedIn */}
+                <div className="flex items-start mt-4">
+                  <div className="w-12 h-12 bg-blue-700 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                    <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.27c-.97 0-1.75-.79-1.75-1.76s.78-1.76 1.75-1.76 1.75.79 1.75 1.76-.78 1.76-1.75 1.76zm13.5 11.27h-3v-5.5c0-1.31-.03-2.99-1.82-2.99-1.82 0-2.1 1.42-2.1 2.89v5.6h-3v-10h2.88v1.36h.04c.4-.75 1.38-1.54 2.84-1.54 3.04 0 3.6 2 3.6 4.6v5.58z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-1">LinkedIn</h3>
+                    <p className="text-gray-600 mb-2">Follow us on LinkedIn for company updates and job postings.</p>
+                    <a
+                      href="https://www.linkedin.com/company/erp21-pte-ltd/about/"
+                      target="_blank"
                       rel="noopener noreferrer"
-                      className="text-green-600 hover:text-green-700 font-medium"
+                      className="text-blue-700 hover:text-blue-800 font-medium"
                     >
-                      +65 9880 6711
+                      ERP21 on LinkedIn
                     </a>
                   </div>
                 </div>

@@ -46,18 +46,18 @@ const erp21: ERP21Content = {
       "We provide SAP consultants for project implementation, training, and ongoing support.",
       "Since 2013, we have expanded into IT hardware/software, deskside support, desk administration, and creative media services."
     ],
-    industries: ["Oil & Gas", "Aerospace", "Defence", "Mining", "Public Sector"],
+    industries: ["Oil & Gas", "Aerospace", "Defence", "Logistics", "Public Sector"],
     since: "Operating since 1999",
     momLicence: "MOM Licence No. 16C7929",
     erpVariants: ["ERPi (backend systems)", "ERPii (extended ERP solutions)"]
   },
   services: [
     "SAP consultants recruitment (contract & permanent)",
-    "IT practitioners",
-    "Data migration",
-    "Testing",
-    "Training",
-    "Offshore Development Centre",
+    "Consulting & Implementation",
+    "Training & Education",
+    "IT Practitioners",
+    "Testing & Integration",
+    "Offshore Development",
     "AI-skilled practitioners"
   ],
   offices: {
@@ -114,7 +114,7 @@ const erp21: ERP21Content = {
       ],
       quote: "Recruitment should be led by practitioners—because delivery demands it.",
       photo: {
-        src: "/images/mohHeadShot.png",
+        src: "/images/mohHeadShot.jpg",
         alt: "Portrait of Moh Alkaff, Founder & CEO of ERP21",
         width: 758,
         height: 758

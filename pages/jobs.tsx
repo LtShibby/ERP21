@@ -20,8 +20,36 @@ export default function Jobs() {
   const [selectedLocation, setSelectedLocation] = useState<string>('All');
   const [loading, setLoading] = useState(true);
 
-  const industries = ['All', 'Oil & Gas', 'Aerospace', 'Defence', 'Utility', 'Shipping', 'Healthcare'];
-  const locations = ['All', 'Singapore', 'Malaysia', 'Remote'];
+  // Industries are loaded from localStorage so admin-managed industries are reflected here.
+  const [industries, setIndustries] = useState<string[]>([
+    'All',
+    'Oil & Gas',
+    'Aerospace',
+    'Defence',
+    'Logistics',
+    'Public Sector / Government',
+    'Finance & Banking',
+    'Manufacturing - distributions',
+    'Professional Services',
+    'Others',
+  ]);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('erp21-industries');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          if (!parsed.includes('All')) parsed.unshift('All');
+          setIndustries(parsed);
+        }
+      }
+    } catch (err) {
+      console.warn('Could not load industries from localStorage', err);
+    }
+  }, []);
+
+  const locations = ['All', 'Singapore', 'Malaysia', 'Indonesia', 'Vietnam', 'India', 'Phillipines', 'Rest of Asia', 'Europe', 'Middle East', 'United States', 'Canada', 'Australia', 'New Zealand', 'Rest of World', 'Remote'];
 
   useEffect(() => {
     loadJobs();
@@ -185,7 +213,7 @@ export default function Jobs() {
             Contact us to discuss your career goals and let us help you find the perfect match.
           </p>
           <a 
-            href="mailto:jobs@erp21.com"
+            href="mailto:alkaff@erp21.com.sg"
             className="btn-primary bg-white text-erp-blue hover:bg-gray-100"
           >
             Get in Touch

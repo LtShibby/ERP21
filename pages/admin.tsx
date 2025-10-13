@@ -44,7 +44,64 @@ export default function Admin() {
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [activeTab, setActiveTab] = useState<'current' | 'archived'>('current');
   const [showIndustryEditor, setShowIndustryEditor] = useState(false);
-  const [industries, setIndustries] = useState(['Oil & Gas', 'Aerospace', 'Defence', 'Utility', 'Shipping', 'Healthcare']);
+  // Use the provided canonical lists. 'All' is included for potential filtering UI;
+  // when used as a value for creating/editing a job we exclude 'All' from selectable options.
+  const [industries, setIndustries] = useState([
+    'All',
+    'Oil & Gas',
+    'Aerospace',
+    'Defence',
+    'Logistics',
+    'Public Sector / Government',
+    'Finance & Banking',
+    'Manufacturing - distributions',
+    'Professional Services',
+    'Others',
+  ]);
+  // Persist industries to localStorage so the public Jobs page can consume the same list
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('erp21-industries');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        // Ensure the reserved 'All' placeholder is present
+        if (Array.isArray(parsed)) {
+          if (!parsed.includes('All')) parsed.unshift('All');
+          setIndustries(parsed);
+        }
+      }
+    } catch (err) {
+      // ignore localStorage errors
+      console.warn('Could not load industries from localStorage', err);
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('erp21-industries', JSON.stringify(industries));
+    } catch (err) {
+      console.warn('Could not save industries to localStorage', err);
+    }
+  }, [industries]);
+
+  const [locations, setLocations] = useState([
+    'All',
+    'Singapore',
+    'Malaysia',
+    'Indonesia',
+    'Vietnam',
+    'India',
+    'Phillipines',
+    'Rest of Asia',
+    'Europe',
+    'Middle East',
+    'United States',
+    'Canada',
+    'Australia',
+    'New Zealand',
+    'Rest of World',
+    'Remote',
+  ]);
   const [industryError, setIndustryError] = useState<string | null>(null);
   const [industrySuccess, setIndustrySuccess] = useState<string | null>(null);
   const [tooltipIndustry, setTooltipIndustry] = useState<string | null>(null);
@@ -90,25 +147,77 @@ export default function Admin() {
     setJobs(updatedJobs);
   };
 
-  function exportJobsToExcel(allJobs: Job[]) {
-    // Jobs sheet
-    const jobRows = allJobs.map(j => ({
+  function exportJobsToExcel(_allJobs?: Job[]) {
+    // Ensure we export the authoritative persisted data where possible
+    let allJobsData: Job[] = [];
+    try {
+      const storedJobs = localStorage.getItem(JOBS_KEY);
+      if (storedJobs) {
+        allJobsData = JSON.parse(storedJobs);
+      } else if (_allJobs && Array.isArray(_allJobs)) {
+        allJobsData = _allJobs;
+      }
+    } catch (err) {
+      console.warn('Could not read jobs from localStorage for export, falling back to in-memory', err);
+      if (_allJobs && Array.isArray(_allJobs)) allJobsData = _allJobs;
+    }
+
+    // Build a union of industries: admin-managed list + any industries used by jobs
+    let persistedIndustries: string[] = industries;
+    try {
+      const stored = localStorage.getItem('erp21-industries');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) persistedIndustries = parsed;
+      }
+    } catch (err) {
+      console.warn('Could not load industries from localStorage for export', err);
+    }
+
+    const jobUsedIndustries = Array.from(new Set(allJobsData.map(j => j.industry).filter(Boolean)));
+    const industriesUnion = Array.from(new Set([...persistedIndustries, ...jobUsedIndustries]));
+
+    // Build a union of locations: admin-managed list + any locations used by jobs
+    let persistedLocations: string[] = locations;
+    try {
+      const stored = localStorage.getItem('erp21-locations');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) persistedLocations = parsed;
+      }
+    } catch (err) {
+      console.warn('Could not load locations from localStorage for export', err);
+    }
+
+    const jobUsedLocations = Array.from(new Set(allJobsData.map(j => j.location).filter(Boolean)));
+    const locationsUnion = Array.from(new Set([...persistedLocations, ...jobUsedLocations]));
+
+    // Jobs sheet: normalize requirements to a joined string
+    const jobRows = allJobsData.map(j => ({
       ID: j.id,
       Title: j.title,
       Location: j.location,
       Industry: j.industry,
       Description: j.description,
-      Requirements: j.requirements.join(' | '),
+      Requirements: Array.isArray(j.requirements) ? j.requirements.join(' | ') : String(j.requirements || ''),
       DatePosted: j.datePosted,
       Archived: j.archived ? 'Yes' : 'No',
     }));
 
-    // Industries sheet
-    const industryRows = industries.map((industry, index) => ({
+    // Industries sheet - use the union (admin list + job-used)
+    const industryRows = industriesUnion.map((industry, index) => ({
       ID: index + 1,
       Industry: industry,
-      JobsUsing: allJobs.filter(job => job.industry === industry).length,
-      CanRemove: allJobs.filter(job => job.industry === industry).length === 0 ? 'Yes' : 'No'
+      JobsUsing: allJobsData.filter(job => job.industry === industry).length,
+      CanRemove: allJobsData.filter(job => job.industry === industry).length === 0 ? 'Yes' : 'No'
+    }));
+
+    // Locations sheet - use the union (admin list + job-used)
+    const locationRows = locationsUnion.map((loc, index) => ({
+      ID: index + 1,
+      Location: loc,
+      JobsUsing: allJobsData.filter(job => job.location === loc).length,
+      CanRemove: allJobsData.filter(job => job.location === loc).length === 0 ? 'Yes' : 'No'
     }));
 
     // Create workbook with multiple sheets
@@ -121,6 +230,10 @@ export default function Admin() {
     // Add Industries sheet
     const industriesWs = XLSX.utils.json_to_sheet(industryRows);
     XLSX.utils.book_append_sheet(wb, industriesWs, 'Industries');
+
+    // Add Locations sheet
+    const locationsWs = XLSX.utils.json_to_sheet(locationRows);
+    XLSX.utils.book_append_sheet(wb, locationsWs, 'Locations');
 
     const wbout = XLSX.write(wb, { type: 'array', bookType: 'xlsx' });
     const blob = new Blob([wbout], { type: 'application/octet-stream' });
@@ -254,6 +367,13 @@ export default function Admin() {
   };
 
   const removeIndustry = (industryToRemove: string) => {
+    // Prevent removing the 'All' placeholder
+    if (industryToRemove === 'All') {
+      setIndustryError('Cannot remove the reserved "All" placeholder');
+      setTimeout(() => setIndustryError(null), 5000);
+      return;
+    }
+
     // Check if any jobs are using this industry
     const jobsUsingIndustry = jobs.filter(job => job.industry === industryToRemove);
     
@@ -263,7 +383,7 @@ export default function Admin() {
       setTimeout(() => setIndustryError(null), 5000);
       return;
     }
-    
+
     // Open confirmation modal
     setDeleteIndustryModal({ isOpen: true, industry: industryToRemove });
   };
@@ -386,22 +506,20 @@ export default function Admin() {
             <p className="text-gray-600">Archived Jobs</p>
           </div>
           <div className="card text-center">
-            <h3 className="text-2xl font-bold text-erp-blue">
-              {new Set(jobs.map(job => job.industry)).size}
-            </h3>
+            <h3 className="text-2xl font-bold text-erp-blue">{industries.length}</h3>
             <p className="text-gray-600">Industries</p>
             <button
-                             onClick={() => {
-                 setShowIndustryEditor(true);
-                 setIndustryError(null);
-                 setIndustrySuccess(null);
-                 setTooltipIndustry(null);
-               }}
-              className="mt-2 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 py-1 px-3 rounded"
-            >
-              Edit Industries
-            </button>
-          </div>
+                              onClick={() => {
+                  setShowIndustryEditor(true);
+                  setIndustryError(null);
+                  setIndustrySuccess(null);
+                  setTooltipIndustry(null);
+                }}
+               className="mt-2 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 py-1 px-3 rounded"
+             >
+               Edit Industries
+             </button>
+           </div>
         </div>
 
         {/* Job Form */}
@@ -430,16 +548,19 @@ export default function Admin() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Location *
                   </label>
-                  <input
-                    type="text"
+                  <select
                     value={formData.location}
                     onChange={(e) => setFormData({...formData, location: e.target.value})}
                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-erp-blue focus:border-transparent"
-                    placeholder="e.g. Singapore, Singapore / Malaysia"
                     required
-                  />
-                </div>
-              </div>
+                  >
+                    <option value="">Select Location</option>
+                    {locations.filter(loc => loc !== 'All').map(loc => (
+                      <option key={loc} value={loc}>{loc}</option>
+                    ))}
+                  </select>
+                 </div>
+               </div>
 
               <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -452,7 +573,7 @@ export default function Admin() {
                   required
                 >
                   <option value="">Select Industry</option>
-                  {industries.map(industry => (
+                  {industries.filter(ind => ind !== 'All').map(industry => (
                     <option key={industry} value={industry}>{industry}</option>
                   ))}
                 </select>
@@ -565,28 +686,27 @@ export default function Admin() {
                                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                    {industries.map((industry, index) => {
                      const jobsUsingIndustry = jobs.filter(job => job.industry === industry);
-                     const canRemove = jobsUsingIndustry.length === 0;
-                     
+                     // can't remove the reserved 'All' placeholder or an industry in use
+                     const canRemove = industry !== 'All' && jobsUsingIndustry.length === 0;
+
                      return (
                        <div key={index} className="flex items-center justify-between bg-gray-50 p-3 rounded relative">
                          <span className="text-sm text-gray-700">{industry}</span>
                          <button
-                           onClick={() => removeIndustry(industry)}
+                           onClick={() => canRemove && removeIndustry(industry)}
                            className={`text-sm transition-colors ${
-                             canRemove 
-                               ? 'text-red-600 hover:text-red-800' 
+                             canRemove
+                               ? 'text-red-600 hover:text-red-800'
                                : 'text-gray-400 hover:text-gray-600 cursor-not-allowed'
                            }`}
                            onMouseEnter={() => {
-                             if (!canRemove) {
-                               setTooltipIndustry(industry);
-                             }
+                             if (!canRemove) setTooltipIndustry(industry);
                            }}
                            onMouseLeave={() => setTooltipIndustry(null)}
                          >
                            ×
                          </button>
-                         
+
                          {/* Tooltip */}
                          {tooltipIndustry === industry && !canRemove && (
                            <div className="absolute right-0 top-full mt-1 z-10 bg-gray-900 text-white text-xs rounded py-2 px-3 shadow-lg whitespace-nowrap">
@@ -782,3 +902,4 @@ export default function Admin() {
     </Layout>
   );
 }
+
