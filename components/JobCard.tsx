@@ -80,7 +80,7 @@ export default function JobCard({ job }: JobCardProps) {
 
       <div className="flex flex-col sm:flex-row gap-3">
         <a
-          href={`mailto:jobs@erp21.com?subject=Application for ${job.title}&body=Dear ERP21 Team,%0D%0A%0D%0AI am interested in applying for the ${job.title} position (ID: ${job.id}).%0D%0A%0D%0APlease find my resume attached.%0D%0A%0D%0ABest regards`}
+          href={`mailto:alkaff@erp21.com.sg?subject=Application for ${job.title}&body=Dear ERP21 Team,%0D%0A%0D%0AI am interested in applying for the ${job.title} position (ID: ${job.id}).%0D%0A%0D%0APlease find my resume attached.%0D%0A%0D%0ABest regards`}
           className="btn-primary text-center"
         >
           Apply Now

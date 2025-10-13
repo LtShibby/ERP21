@@ -4,7 +4,7 @@ export default function Contact() {
   return (
     <Layout 
       title="Contact ERP21 - Get in Touch with Our Recruitment Team"
-      description="Contact ERP21 for your recruitment needs. Email us at jobs@erp21.com or connect via WhatsApp for immediate assistance."
+      description="Contact ERP21 for your recruitment needs. Email us at alfakk@erp21.com.sg or connect via WhatsApp for immediate assistance."
     >
       {/* Header */}
       <section className="py-12 sm:py-16 lg:py-20 bg-gray-50">
@@ -42,10 +42,10 @@ export default function Contact() {
                     <h3 className="text-lg font-semibold text-gray-900 mb-1">Email</h3>
                     <p className="text-gray-600 mb-2">Send us your inquiries or job applications</p>
                     <a 
-                      href="mailto:jobs@erp21.com" 
+                      href="mailto:alfakk@erp21.com.sg" 
                       className="text-erp-blue hover:text-erp-blue-dark font-medium"
                     >
-                      jobs@erp21.com
+                      alfakk@erp21.com.sg
                     </a>
                   </div>
                 </div>
@@ -262,7 +262,7 @@ export default function Contact() {
               <h3 className="text-xl font-semibold mb-2">Submit Your Resume</h3>
               <p className="text-blue-100 mb-4">Send your CV directly for future opportunities</p>
               <a 
-                href="mailto:jobs@erp21.com?subject=Resume Submission&body=Dear ERP21 Team,%0D%0A%0D%0APlease find my resume attached for your consideration for future opportunities.%0D%0A%0D%0ABest regards"
+                href="mailto:alfakk@erp21.com.sg?subject=Resume Submission&body=Dear ERP21 Team,%0D%0A%0D%0APlease find my resume attached for your consideration for future opportunities.%0D%0A%0D%0ABest regards"
                 className="btn-secondary bg-white text-erp-blue hover:bg-gray-100"
               >
                 Email Resume
@@ -278,7 +278,7 @@ export default function Contact() {
               <h3 className="text-xl font-semibold mb-2">Employer Services</h3>
               <p className="text-blue-100 mb-4">Need recruitment solutions for your company?</p>
               <a 
-                href="mailto:jobs@erp21.com?subject=Employer Services Inquiry&body=Dear ERP21 Team,%0D%0A%0D%0AI am interested in learning more about your recruitment services for employers.%0D%0A%0D%0ACompany:%0D%0AIndustry:%0D%0APosition(s) needed:%0D%0A%0D%0APlease contact me to discuss our requirements.%0D%0A%0D%0ABest regards"
+                href="mailto:alfakk@erp21.com.sg?subject=Employer Services Inquiry&body=Dear ERP21 Team,%0D%0A%0D%0AI am interested in learning more about your recruitment services for employers.%0D%0A%0D%0ACompany:%0D%0AIndustry:%0D%0APosition(s) needed:%0D%0A%0D%0APlease contact me to discuss our requirements.%0D%0A%0D%0ABest regards"
                 className="btn-secondary bg-white text-erp-blue hover:bg-gray-100"
               >
                 Get Started
