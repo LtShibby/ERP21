@@ -114,7 +114,7 @@ const erp21: ERP21Content = {
       ],
       quote: "Recruitment should be led by practitioners—because delivery demands it.",
       photo: {
-        src: "/images/mohHeadShot.jpg",
+        src: "/images/alkaffHeadshot.png",
         alt: "Portrait of Moh Alkaff, Founder & CEO of ERP21",
         width: 758,
         height: 758
