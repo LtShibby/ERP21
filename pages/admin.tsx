@@ -220,6 +220,17 @@ export default function Admin() {
       CanRemove: allJobsData.filter(job => job.location === loc).length === 0 ? 'Yes' : 'No'
     }));
 
+    // Also export the raw persisted admin lists (as-maintained by admin) so callers can restore them exactly
+    const industriesRawRows = persistedIndustries.map((industry, index) => ({
+      ID: index + 1,
+      Industry: industry,
+    }));
+
+    const locationsRawRows = persistedLocations.map((loc, index) => ({
+      ID: index + 1,
+      Location: loc,
+    }));
+
     // Create workbook with multiple sheets
     const wb = XLSX.utils.book_new();
     
@@ -234,6 +245,13 @@ export default function Admin() {
     // Add Locations sheet
     const locationsWs = XLSX.utils.json_to_sheet(locationRows);
     XLSX.utils.book_append_sheet(wb, locationsWs, 'Locations');
+
+    // Add raw admin-maintained list sheets so the exact arrays can be restored
+    const industriesRawWs = XLSX.utils.json_to_sheet(industriesRawRows);
+    XLSX.utils.book_append_sheet(wb, industriesRawWs, 'IndustriesList');
+
+    const locationsRawWs = XLSX.utils.json_to_sheet(locationsRawRows);
+    XLSX.utils.book_append_sheet(wb, locationsRawWs, 'LocationsList');
 
     const wbout = XLSX.write(wb, { type: 'array', bookType: 'xlsx' });
     const blob = new Blob([wbout], { type: 'application/octet-stream' });

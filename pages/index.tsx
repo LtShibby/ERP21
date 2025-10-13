@@ -2,8 +2,17 @@ import Layout from '../components/Layout';
 import Link from 'next/link';
 import ServicesList from '../components/ServicesList';
 import erp21 from '../content/erp21';
+import { Droplet, Rocket, Shield, Truck, Users, Briefcase } from 'lucide-react';
 
 export default function Home() {
+  // Map industry names to lucide icons
+  const industryIconMap: { [key: string]: any } = {
+    'Oil & Gas': Droplet,
+    'Aerospace': Rocket,
+    'Defence': Shield,
+    'Logistics': Truck,
+    'Public Sector': Users,
+  };
   return (
     <Layout 
       title={erp21.seo.title}
@@ -44,18 +53,19 @@ export default function Home() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {erp21.about.industries.map((industry, index) => (
-              <div key={index} className="card hover:shadow-md transition-shadow">
-                <div className="w-12 h-12 bg-erp-blue rounded-full flex items-center justify-center mb-4">
-                  <span className="text-white font-bold text-lg">
-                    {industry.charAt(0)}
-                  </span>
+            {erp21.about.industries.map((industry, index) => {
+              const Icon = industryIconMap[industry] || Briefcase;
+              return (
+                <div key={index} className="card hover:shadow-md transition-shadow">
+                  <div className="w-12 h-12 bg-erp-blue rounded-full flex items-center justify-center mb-4">
+                    <Icon className="text-white" size={18} />
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{industry}</h3>
+                  <p className="text-gray-600">Specialized recruitment for {industry.toLowerCase()} industry professionals</p>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{industry}</h3>
-                <p className="text-gray-600">Specialized recruitment for {industry.toLowerCase()} industry professionals</p>
-              </div>
-            ))}
-          </div>
+              );
+            })}
+           </div>
         </div>
       </section>
 
