@@ -12,6 +12,18 @@ export default function Maintenance() {
       
       <div className="min-h-screen bg-black flex items-center justify-center px-4">
         <div className="text-center max-w-2xl mx-auto">
+          {/* Logo */}
+          <div className="mb-6 flex items-center justify-center">
+            <Image
+              src="/images/erp21Logo.JPG"
+              alt="ERP21 logo"
+              width={96}
+              height={96}
+              className="rounded-lg object-cover"
+              priority
+            />
+          </div>
+
           {/* Maintenance Image */}
           <div className="mb-8">
             <Image

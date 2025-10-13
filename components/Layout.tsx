@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import erp21 from '../content/erp21';
 import CareersBanner from './CareersBanner';
+import Image from 'next/image';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -56,8 +57,16 @@ export default function Layout({
             <div className="flex justify-between items-center h-14 sm:h-16">
               {/* Logo */}
               <Link href="/" className="flex items-center">
-                <div className="w-10 h-10 bg-erp-blue rounded-lg flex items-center justify-center mr-3">
-                  <span className="text-white font-bold text-lg">E</span>
+                <div className="mr-3">
+                  <Image
+                    src="/images/erp21Logo.JPG"
+                    alt="ERP21 logo"
+                    // intrinsic dimensions; display size controlled by Tailwind classes below
+                    width={64}
+                    height={64}
+                    className="rounded-lg object-cover w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16"
+                    priority
+                  />
                 </div>
                 <span className="text-xl font-bold text-gray-900">ERP21</span>
               </Link>
@@ -141,6 +150,31 @@ export default function Layout({
             {/* Mobile Menu Content */}
             <div className="md:hidden bg-white border-b border-gray-200 relative z-50">
               <div className="page-container py-4">
+                {/* Mobile menu header with logo and close button */}
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center">
+                    <div className="mr-3">
+                      <Image
+                        src="/images/erp21Logo.JPG"
+                        alt="ERP21 logo"
+                        width={56}
+                        height={56}
+                        className="rounded-lg object-cover w-10 h-10 md:w-12 md:h-12"
+                        priority
+                      />
+                    </div>
+                    <span className="text-lg font-bold text-gray-900">ERP21</span>
+                  </div>
+                  <button
+                    onClick={closeMobileMenu}
+                    aria-label="Close menu"
+                    className="p-2 text-gray-600 hover:text-gray-900"
+                  >
+                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
                 <div className="flex flex-col space-y-4">
                   <Link 
                     href="/" 
@@ -204,8 +238,15 @@ export default function Layout({
               {/* Company Info */}
               <div className="col-span-2">
                 <div className="flex items-center mb-4">
-                  <div className="w-8 h-8 bg-erp-blue rounded-lg flex items-center justify-center mr-2">
-                    <span className="text-white font-bold">E</span>
+                  <div className="mr-2">
+                    <Image
+                      src="/images/erp21Logo.JPG"
+                      alt="ERP21 logo"
+                      width={56}
+                      height={56}
+                      className="rounded-lg object-cover w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14"
+                      priority
+                    />
                   </div>
                   <span className="text-lg font-bold text-gray-900">ERP21</span>
                 </div>
